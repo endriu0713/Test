@@ -1,13 +1,11 @@
 package model;
 
-import java.sql.Date;
-
 public class User {
 	private String username;
-	private int id;
-	private String firstName;
-	private String lastName;
-	private String birthDate;
+	private int userID;
+	private String password;
+	private String status;
+	private String type;
 	
 	public void setUsername(String username) {
 		this.username = username;
@@ -17,43 +15,42 @@ public class User {
 		return username;
 	}
 	
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
-	public String getFirstName() {
-		return firstName;
+	public String getPassword() {
+		return password;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 	
-	public int getId() {
-		return id;
+	public int getUserID() {
+		return userID;
 	}
 	
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
-	public String getLastName() {
-		return lastName;
+	public String getStatus() {
+		return status;
 	}
 	
-	public String getBirthDay() {
-		return birthDate;
+	public void setType(String type) {
+		this.type = type;
 	}
 	
-	public void setBirthDay(String birthDate) {
-		this.birthDate = birthDate;
+	public String getType() {
+		return type;
 	}
-	
-	public User(int id, String username, String firstName, String lastName, String birthDate) {
-		this.setFirstName(firstName);
-		this.setLastName(lastName);
-		this.setId(id);
+
+	public User(int userID, String username, String status, String type) {
+		this.setUserID(userID);
 		this.setUsername(username);
-		this.birthDate = birthDate;
+		this.setStatus(status);
+		this.setType(type);
 	}
 }

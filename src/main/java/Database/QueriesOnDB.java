@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.Employee;
 import model.User;
 
 public class QueriesOnDB {
@@ -25,13 +26,13 @@ public class QueriesOnDB {
     }
     
     private boolean createTables()  {
-        //String createCzytelnicy = "CREATE TABLE IF NOT EXISTS czytelnicy (id_czytelnika INTEGER PRIMARY KEY AUTOINCREMENT, imie varchar(255), nazwisko varchar(255), pesel int)";
-        String createUsers = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(255) UNIQUE, firstName varchar(255), lastName varchar(255), birthDate varchar(255))";
-        //String createWypozyczenia = "CREATE TABLE IF NOT EXISTS wypozyczenia (id_wypozycz INTEGER PRIMARY KEY AUTOINCREMENT, id_czytelnika int, id_ksiazki int)";
-        try {
+        //String createUsers = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(255) UNIQUE, firstName varchar(255), lastName varchar(255), birthDate varchar(255))";
+        String createUsers = "CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(255) UNIQUE,  password varchar(255), status varchar(10), type char(10))";
+        String createEmployees = "CREATE TABLE IF NOT EXISTS employees (employeeID INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(255) UNIQUE,  firstName varchar(255), lastName varchar(255), contractType varchar(255), hireDate date, terminationDate date)";
+               try {
             //stat.execute(createCzytelnicy);
             stat.execute(createUsers);
-            //stat.execute(createWypozyczenia);
+            stat.execute(createEmployees);
         } catch (SQLException e) {
             System.err.println("Error during tables creation or open");
             e.printStackTrace();
@@ -58,5 +59,13 @@ public class QueriesOnDB {
     
     public ArrayList<User> selectFromUsersByDifferentString(String column, String data){
     	return this.selectsDB.selectFromUsersByDifferentString(column, data);
+    }
+    
+    public boolean reqisterUser(User user, Employee employee) {
+    	return this.insertsDB.reqisterUser(user, employee);
+    }
+    
+    public ArrayList<Employee> selectFromEmployeesByDifferentString(String column, String data){
+    	return this.selectsDB.selectFromEmployeesByDifferentString(column, data);
     }
 }

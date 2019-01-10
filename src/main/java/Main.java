@@ -1,29 +1,34 @@
+import java.sql.Date;
 import java.util.ArrayList;
 
 import Database.Database;
+import model.Employee;
 import model.User;
 
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("works");
 		Database db = Database.getInstance();
 		
-		//db.insertUser("username2", "Patryk", "Andrejas", "birthDate");
+		User user = new User(0,"andre","active","admin");
+		user.setPassword("pass");
+		Employee emp = new Employee(0, "andre", "firstName", "lastName", "normal", new Date(0));
+		emp.setTerminationDate(new Date(0));
 		
-		ArrayList<User> users = db.selectUsers();
-		for (User user : users) {
-			System.out.println(user.getId() + " - " + user.getUsername() + " - " + user.getFirstName() + " - " + user.getLastName());
+		//db.reqisterUser(user, emp);
+		System.out.println("Users:");
+		ArrayList<User> users = new ArrayList<User>();
+		users = db.selectFromUsersByDifferentString("username", "andre");
+		for (User user2 : users) {
+			System.out.println(user2.getUserID() + " : " + user2.getUsername() +  " : " +user2.getType());
 		}
-		System.out.println("Dwa:");
-		User user = db.selectUser("username2");
-		System.out.println(user.getId() + " - " + user.getUsername() + " - " + user.getFirstName() + " - " + user.getLastName());
-	
-		System.out.println("Trzy:");
-		ArrayList<User> users2 = db.selectUsers();
-		for (User user1 : users2) {
-			System.out.println(user1.getId() + " - " + user1.getUsername() + " - " + user1.getFirstName() + " - " + user1.getLastName());
+		System.out.println("Employees:");
+		ArrayList<Employee> employees = new ArrayList<Employee>();
+		employees = db.selectFromEmployeesByDifferentString("username", "andre");
+		for (Employee employee : employees) {
+			System.out.println(employee.getUsername() + " : " + employee.getFirstName() +  " : " + employee.getLastName() + " : " + employee.getTerminationDate());
 		}
+		
 	}
 
 }

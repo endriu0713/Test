@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import model.Employee;
 import model.User;
 
 public class Database {
@@ -46,5 +48,13 @@ public class Database {
     
     public ArrayList<User> selectFromUsersByDifferentString(String column, String data){
     	return this.queriesOnDB.selectFromUsersByDifferentString(column, data);
+    }
+    
+    public boolean reqisterUser(User user, Employee employee) {
+    	return this.queriesOnDB.reqisterUser(user, employee);
+    }
+    
+    public ArrayList<Employee> selectFromEmployeesByDifferentString(String column, String data){
+    	return this.queriesOnDB.selectFromEmployeesByDifferentString(column, data);
     }
 }
