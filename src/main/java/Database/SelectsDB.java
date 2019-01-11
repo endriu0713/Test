@@ -1,5 +1,6 @@
 package Database;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,24 +12,25 @@ import model.User;
 
 public class SelectsDB {
 	private Statement stat;
+    private Connection conn;
 	
-	public SelectsDB(Statement stat) {
-		this.stat = stat;
+    public SelectsDB(Statement stat, Connection conn) {
+    	this.stat = stat;
+    	this.conn = conn;
 	}
 	
 	public ArrayList<User> selectUsers(){
 		ArrayList<User> users = new ArrayList<User>();
 		try {
-			ResultSet result = stat.executeQuery("SELECT * FROM users;");
-			int id;
-			String firstName, lastName, username, birthDate;
+			ResultSet result = stat.executeQuery("SELECT * FROM users order by username;");
+			int userID;
+			String username, status, type;
 			while(result.next()) {
-				id = result.getInt("id");
+				userID = result.getInt("userID");
 				username = result.getString("username");
-				firstName = result.getString("firstName");
-				lastName = result.getString("lastName");
-				birthDate = result.getString("birthDate");
-				users.add(new User(id,username,firstName,lastName,birthDate));
+				status = result.getString("status");
+				type = result.getString("type");
+				users.add(new User(userID,username,status,type));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -38,24 +40,17 @@ public class SelectsDB {
 		return users;
 	}
 	
-	public User selectUser(String Username){
-		User user;
+	public boolean checkIfUsernameExist(String Username){
 		try {
-			ResultSet result = stat.executeQuery("SELECT * FROM users where username =='" + Username + "';");
-			int id;
-			String firstName, lastName, username, birthDate;
-			id = result.getInt("id");
-			username = result.getString("username");
-			firstName = result.getString("firstName");
-			lastName = result.getString("lastName");
-			birthDate = result.getString("birthDate");
-			user = new User(id,username,firstName,lastName,birthDate);
+			ResultSet result = stat.executeQuery("SELECT * FROM users where username == '" + Username + "';");
+			if(result.next()) {
+				return true;
+			}
+			return false;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
+			System.err.println("Error during selecting User: " + e.getMessage());
+			return false;
 		}
-		
-		return user;
 	}
 	
 	public ArrayList<User> selectFromUsersByDifferentString(String column, String data){
@@ -82,7 +77,7 @@ public class SelectsDB {
 	public ArrayList<Employee> selectFromEmployeesByDifferentString(String column, String data){
 		ArrayList<Employee> employees = new ArrayList<Employee>();
 		try {
-			ResultSet result = stat.executeQuery("SELECT * FROM employees where " + column + " =='" + data + "';");
+			ResultSet result = stat.executeQuery("SELECT * FROM employees where " + column + " like '%" + data + "%';");
 			int employeeID;
 			String username, firstName, lastName, contractType;
 			Date hireDate, terminationDate;

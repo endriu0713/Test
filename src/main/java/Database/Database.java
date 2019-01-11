@@ -13,7 +13,7 @@ import model.User;
 
 public class Database {
 
-    public static Database Instance = null;
+    private static Database Instance = null;
     private ConnectionToDB conncectionToDB;
     private QueriesOnDB queriesOnDB;
     
@@ -38,12 +38,8 @@ public class Database {
     	return this.queriesOnDB.selectUsers();
     }
     
-    public boolean insertUser(String username, String firstName, String lastName, String birthDate) {
-    	return this.queriesOnDB.insertUser(username, firstName, lastName, birthDate);
-    }
-    
-    public User selectUser(String username){
-    	return this.queriesOnDB.selectUser(username);
+    public boolean checkIfUsernameExist(String username){
+    	return this.queriesOnDB.checkIfUsernameExist(username);
     }
     
     public ArrayList<User> selectFromUsersByDifferentString(String column, String data){

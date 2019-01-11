@@ -21,8 +21,8 @@ public class QueriesOnDB {
 	}
     
     private void createQueries() {
-    	selectsDB = new SelectsDB(stat);
-    	insertsDB = new InsertsDB(conn);
+    	selectsDB = new SelectsDB(stat,conn);
+    	insertsDB = new InsertsDB(stat,conn);
     }
     
     private boolean createTables()  {
@@ -48,13 +48,10 @@ public class QueriesOnDB {
     public ArrayList<User> selectUsers(){
     	return this.selectsDB.selectUsers();
     }
+   
     
-    public boolean insertUser(String username, String firstName, String lastName, String birthDate) {
-    	return this.insertsDB.insertUser(username, firstName, lastName, birthDate);
-    }
-    
-    public User selectUser(String username){
-    	return this.selectsDB.selectUser(username);
+    public boolean checkIfUsernameExist(String username){
+    	return this.selectsDB.checkIfUsernameExist(username);
     }
     
     public ArrayList<User> selectFromUsersByDifferentString(String column, String data){

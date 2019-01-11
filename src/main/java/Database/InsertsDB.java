@@ -9,30 +9,31 @@ import model.Employee;
 import model.User;
 
 public class InsertsDB {
-	private Connection conn;
+	private Statement stat;
+    private Connection conn;
 	
-	public InsertsDB(Connection conn) {
-		this.conn = conn;
+    public InsertsDB(Statement stat, Connection conn) {
+    	this.stat = stat;
+    	this.conn = conn;
 	}
 	
-	public boolean insertUser(String username, String firstName, String lastName, String birthDate) {
-		try {
-			PreparedStatement prepStmt = conn.prepareStatement(
-                    "insert into users values (NULL, ?, ?, ?, ?);");
-			prepStmt.setString(1, username);
-            prepStmt.setString(2, firstName);
-            prepStmt.setString(3, lastName);
-            prepStmt.setString(4, birthDate);
-            prepStmt.execute();
-		} catch (SQLException e){
-			System.err.println("Error during inserting");
-			return false;
+	private String generateUsername(User user, Employee employee) {
+		SelectsDB db = new SelectsDB(stat, conn);
+		String generatedUsername = employee.getLastName().substring(0,(employee.getLastName().length()-1)) + employee.getFirstName().charAt(0);
+		boolean generatedUsernameExist = db.checkIfUsernameExist(generatedUsername);
+		System.out.println(generatedUsername + " : " + generatedUsernameExist);
+		for(int index=0; generatedUsernameExist; index++) {
+			generatedUsername = employee.getLastName().substring(0,(employee.getLastName().length()-1)) + employee.getFirstName().charAt(0) + index;
+			System.out.println(generatedUsername + " :::: " + generatedUsernameExist);
+			generatedUsernameExist = db.checkIfUsernameExist(generatedUsername);
 		}
-		
-		return true;
+		return generatedUsername;
 	}
 	
 	public boolean reqisterUser(User user, Employee employee) {
+		String generatedUsername = this.generateUsername(user, employee);
+		employee.setUsername(generatedUsername);
+		user.setUsername(generatedUsername);
 		try {
 			PreparedStatement prepStmt = conn.prepareStatement(
                     "insert into users values (NULL, ?, ?, ?, ?);");
@@ -42,11 +43,9 @@ public class InsertsDB {
             prepStmt.setString(4, user.getType());
             prepStmt.execute();
 		} catch (SQLException e){
-			System.err.println("Error during inserting: " + e.getMessage());
+			System.err.println("Error during inserting u: " + e.getMessage());
 			return false;
 		}
-		
-		
 		try {
 			PreparedStatement prepStmt = conn.prepareStatement(
                     "insert into employees values (NULL, ?, ?, ?, ?, ?, ?);");
@@ -61,7 +60,6 @@ public class InsertsDB {
 			System.err.println("Error during inserting: " + e.getMessage());
 			return false;
 		}
-		
 		return true;
 	}
 }
