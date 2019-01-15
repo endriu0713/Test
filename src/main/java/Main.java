@@ -15,7 +15,7 @@ public class Main {
 		Employee emp = new Employee(0, "andre", "Patryk", "Andrejas", "normal", new Date(0));
 		emp.setTerminationDate(new Date(0));
 		
-		db.reqisterUser(user, emp);
+		//db.reqisterUser(user, emp);
 		System.out.println("Users:");
 		ArrayList<User> users = new ArrayList<User>();
 		users = db.selectUsers(); //("username", "andre");

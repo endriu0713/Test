@@ -22,9 +22,8 @@ public class InsertsDB {
 		String generatedUsername = employee.getLastName().substring(0,(employee.getLastName().length()-1)) + employee.getFirstName().charAt(0);
 		boolean generatedUsernameExist = db.checkIfUsernameExist(generatedUsername);
 		System.out.println(generatedUsername + " : " + generatedUsernameExist);
-		for(int index=0; generatedUsernameExist; index++) {
+		for(int index=1; generatedUsernameExist; index++) {
 			generatedUsername = employee.getLastName().substring(0,(employee.getLastName().length()-1)) + employee.getFirstName().charAt(0) + index;
-			System.out.println(generatedUsername + " :::: " + generatedUsernameExist);
 			generatedUsernameExist = db.checkIfUsernameExist(generatedUsername);
 		}
 		return generatedUsername;
